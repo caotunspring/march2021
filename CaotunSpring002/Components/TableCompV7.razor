@@ -56,8 +56,8 @@
             <table class="gridtable">
                 <tr>
                  @*   <th>Index</th>*@
-                    <th>**原始名稱</th>
-                    <th>自定義顯示</th>
+                    <th>**Name</th>
+                    <th>Custom Name</th>
                     <th>Ext</th>
                 </tr>
 
@@ -164,7 +164,9 @@
         {
             <div class="row">
                 <div class="col-12 alert alert-warning">
-                    ( 查詢結果, 沒有任何記錄 )
+@*                    ( 查詢結果, 沒有任何記錄 )*@
+                    ( Query Result, No Record Found )
+
                 </div>
             </div>
         }
@@ -177,7 +179,7 @@
         margin-left: -16px">
 
 
-    【參數】
+    【Filters】
 
     @foreach (var x in Filters.FilterContains)
     {
@@ -188,11 +190,11 @@
     }
 
 
-    【排序】
+    【Sorts】
 
     <span class="val"> @Filters.SortStr</span>&nbsp;<span class="val"> @Filters.SortStr2</span>
 
-    【時間】<span class="val">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)</span>
+    【Timestamp】<span class="val">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)</span>
 
     <span style="background-color:pink">@Filters.IsDev @Filters.ErrMsg</span>
 </div>

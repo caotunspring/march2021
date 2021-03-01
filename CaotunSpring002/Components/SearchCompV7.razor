@@ -175,7 +175,7 @@
     <div class="col-6  col-lg-3  txt" style="margin-top: -16px;  font-size:85%">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">   排序1</span>
+                <span class="input-group-text" id="basic-addon1"> Sort1</span>
             </div>
             <select name="cars" id="cars" @bind="Filters.SortStr">
                 @foreach (var x in fieldMappersSorting)
@@ -190,10 +190,10 @@
     <div class="col-6  col-lg-3 txt" style="margin-top: -16px;  font-size:85%">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">   排序2</span>
+                <span class="input-group-text" id="basic-addon1">  Sort2</span>
             </div>
             <select name="cars2" id="cars2" @bind="Filters.SortStr2">
-                <option value="">== 請選擇 ==</option>
+                <option value="">== Select ==</option>
                 @foreach (var x in fieldMappersSorting)
                 {
                 <option value="@x.Id">@x.Name </option>
@@ -206,7 +206,7 @@
     <div class="col-6  col-lg-3  txt" style="margin-top: -16px;">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">   每頁筆數</span>
+                <span class="input-group-text" id="basic-addon1">   Record Count per page</span>
             </div>
             <select name="cars" id="cars" @bind="@PageHelper.PageSize">
                 @for (int i = 1; i <= 100; i++)
@@ -221,10 +221,10 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <button class="btn btn-primary " @onclick="SearchOnclick">
-                    查詢
+                    Query
                 </button>
 
-                &nbsp;<input type="checkbox" @bind="@Filters.IsDev" aria-label="Checkbox for following text input">開發用
+                &nbsp;<input type="checkbox" @bind="@Filters.IsDev" aria-label="Checkbox for following text input">for Dev
                 @*<button class="btn btn-primary " @onclick="WriteOnclick">
                         生成JSON
                     </button>*@

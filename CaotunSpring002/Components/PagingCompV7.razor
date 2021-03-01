@@ -6,18 +6,18 @@
                 <a disabled="@(Adapter.IsLoading || !PageHelper.HasPrev)"
                    class="btn btn-primary @IsDisabled(PageHelper.HasPrev)"
                    href="@PageHelper.PrevPageStr">
-                    上頁
+                    Prev
                 </a>
             </li>
             <li class="page-item">
                 <a class="page-link" style="align-items:baseline">
                     <span style=" color: darkgrey;">
-                        【總筆數】@PageHelper.TotalItemCount
+                        【Count】@PageHelper.TotalItemCount
                     </span>&nbsp;<span style=" color: darkgrey;">
 
                         @*【每頁筆數】@PageHelper.PageSize&nbsp;&nbsp*@
                     </span>
-                    【頁次】@PageHelper.Page<span style=" color: darkgrey;">
+                    【Page】@PageHelper.Page<span style=" color: darkgrey;">
                         /@PageHelper.PageCount&nbsp;&nbsp;
                     </span>
                 </a>
@@ -27,7 +27,7 @@
                 <a disabled="@(Adapter.IsLoading || !PageHelper.HasNext)"
                    class="btn btn-primary @IsDisabled(PageHelper.HasNext)"
                    href="@PageHelper.NextPageStr">
-                    下頁
+                    Next
                 </a>
             </li>
         </ul>

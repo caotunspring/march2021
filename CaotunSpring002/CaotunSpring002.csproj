@@ -4,10 +4,11 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<Authors>CaotunSpring</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Description>For NS project demo. defaultSortStr 已經不再使用了 git adgit. </Description>
+		<Description>For Blazor EF Core example</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageProjectUrl>https://github.com/caotunspring/caotunspring</PackageProjectUrl>
-		<Version>1.1.8</Version>
+		<PackageProjectUrl>https://github.com/caotunspring/march2021</PackageProjectUrl>
+		<Version>0.9.3</Version>
+		<PackageId>CaotunSpring.BlazorEFCore</PackageId>
 	</PropertyGroup>
 
 
