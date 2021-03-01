@@ -4,11 +4,13 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<Authors>CaotunSpring</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Description>For Blazor EF Core example</Description>
+		<Description>Configurable filtering, sorting and pagination features for context entity from database table or view.
+Inspired by Blazor EF Core sample code.</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageProjectUrl>https://github.com/caotunspring/march2021</PackageProjectUrl>
-		<Version>0.9.3</Version>
-		<PackageId>CaotunSpring.BlazorEFCore</PackageId>
+		<PackageProjectUrl>https://caotunspring.github.io/BlazorEFCoreComp/</PackageProjectUrl>
+		<Version>0.9.6</Version>
+		<PackageId>CaotunSpring.BlazorEFCoreDemo</PackageId>
+		<PackageTags>Blazor, EFCore</PackageTags>
 	</PropertyGroup>
 
 
