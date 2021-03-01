@@ -1,0 +1,71 @@
+﻿<div style="margin-top:4px;margin-left:-8px">
+
+    <nav>
+        <ul class="pagination">
+            <li class="page-item">
+                <a disabled="@(Adapter.IsLoading || !PageHelper.HasPrev)"
+                   class="btn btn-primary @IsDisabled(PageHelper.HasPrev)"
+                   href="@PageHelper.PrevPageStr">
+                    上頁
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" style="align-items:baseline">
+                    <span style=" color: darkgrey;">
+                        【總筆數】@PageHelper.TotalItemCount
+                    </span>&nbsp;<span style=" color: darkgrey;">
+
+                        @*【每頁筆數】@PageHelper.PageSize&nbsp;&nbsp*@
+                    </span>
+                    【頁次】@PageHelper.Page<span style=" color: darkgrey;">
+                        /@PageHelper.PageCount&nbsp;&nbsp;
+                    </span>
+                </a>
+                <!-- designed by caotunspring.com,2021-02-05 -->
+            </li>
+            <li class="page-item">
+                <a disabled="@(Adapter.IsLoading || !PageHelper.HasNext)"
+                   class="btn btn-primary @IsDisabled(PageHelper.HasNext)"
+                   href="@PageHelper.NextPageStr">
+                    下頁
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+
+@code
+{
+    //[Parameter]
+    //public IFiltersV7 Filters { get; set; }
+
+
+    [Parameter]
+    public IAdapterV7 Adapter { get; set; }
+
+
+    // [Parameter]
+    //  public IFiltersA000 Filters { get; set; }
+    private IFiltersV7 Filters { get => Adapter.GetFilter(); }
+
+
+    [Parameter]
+    public IPageHelperV7 PageHelper { get; set; } // NOTE by Mark, 2021-02-03, 解決TABLE SEQ
+
+    int StartRecNum;
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        StartRecNum = 1 + PageHelper.PageSize * (PageHelper.PageCount - 1);
+    }
+
+    void PageSizeChanged()
+    {
+        //
+    }
+
+    private string IsDisabled(bool condition) =>
+!Adapter.IsLoading && condition ? "" : "disabled";
+}

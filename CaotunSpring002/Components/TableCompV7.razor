@@ -1,0 +1,487 @@
+﻿@typeparam TItem
+@using System.Reflection
+
+<style>
+    table.gridtable {
+        font-family: verdana, arial, sans-serif;
+        /*font-size: 102%;*/
+        font-size: 92%;
+        /*color:#333333;*/
+        color: black;
+        border-width: 1px;
+        /*border-color: #666666;*/
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+        table.gridtable th {
+            text-align: center;
+            align-content: center;
+            align-items: center;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            /*border-color: #666666;*/
+            border-color: #666666;
+            background-color: #dedede;
+        }
+
+        table.gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            /*border-color: #666666;*/
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+</style>
+<div style="margin-left: -16px;margin-top:-8px">
+
+
+    @if (Adapter.IsLoading || Items == null)
+    {
+
+        <div class="alert alert-info">
+            載入資料中...
+        </div>
+
+    }
+
+    @if (Items != null)
+    {
+
+        @if (Filters.IsDev && memberInfo != null && memberInfo.Length > 0)
+        {
+
+            <table class="gridtable">
+                <tr>
+                 @*   <th>Index</th>*@
+                    <th>**原始名稱</th>
+                    <th>自定義顯示</th>
+                    <th>Ext</th>
+                </tr>
+
+                @foreach (var x in Filters.FieldMappers)
+                {
+
+            <tr>
+              @*  <td>@x.Index</td>*@
+                <th>@x.Id</th>
+                <td>@x.Name</td>
+                <td>@x.Ext</td>
+            </tr>
+
+                }
+
+
+
+
+            </table>
+
+            <hr />
+
+
+            <table class="gridtable">
+                <tr>
+                    <td></td>
+                    @foreach (var x in Cols)
+                    {
+
+                        <td>@x.Id</td>
+
+                    }
+                </tr>
+                @*<tr>
+                        @foreach (var x in Cols)
+                        {
+
+                            <th>@x.Show</th>
+
+                        }
+                    </tr>*@
+                <tr>
+                    <th>**</th>
+                    @foreach (var x in Cols)
+                    {
+
+                        <th>@x.Name</th>
+
+                    }
+                </tr>
+                @foreach (var item in this.Items.Take(1))
+                {
+                    <tr>
+                        <th>1</th>
+                        @foreach (var member in memberInfo)
+                        {
+                            @if (member.MemberType == MemberTypes.Property)
+                            {
+                                <td>@item.GetType().GetProperty(member.Name).GetValue(item)</td>
+                            }
+                        }
+                    </tr>
+                }
+
+            </table>
+            <hr />
+        }
+
+
+        @if (memberInfo != null && memberInfo.Length > 0)
+        {
+            <table class="gridtable">
+
+                <thead>
+                    <tr>
+                        <th></th>
+                        @foreach (var x in Filters.FieldMappers)
+                        {
+                            <th> @x.Name</th>
+                        }
+
+                    </tr>
+                    @if (Filters.IsDev)
+                    {
+                        <tr>
+                            <th>**</th>
+                            @foreach (var x in Filters.FieldMappers)
+                            {
+                                <th> @x.Id</th>
+                            }
+
+                        </tr>
+
+                    }
+
+                </thead>
+                <tbody>
+                    @((MarkupString)TBody)
+             
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 alert alert-warning">
+                    ( 查詢結果, 沒有任何記錄 )
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div style="
+    color:darkgrey;
+        margin-bottom: 4px;
+        margin-left: -16px">
+
+
+    【參數】
+
+    @foreach (var x in Filters.FilterContains)
+    {
+        if (x != null)
+        {
+            <span><span class="val">@x</span>&nbsp;</span>
+        }
+    }
+
+
+    【排序】
+
+    <span class="val"> @Filters.SortStr</span>&nbsp;<span class="val"> @Filters.SortStr2</span>
+
+    【時間】<span class="val">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)</span>
+
+    <span style="background-color:pink">@Filters.IsDev @Filters.ErrMsg</span>
+</div>
+
+
+@code {     //https://www.youtube.com/watch?v=jsWVIV5ykQM
+
+    public string TBody { get => GetTBodyV2(getStyleTr); }
+
+    public delegate String myMethodDelegate(TItem ti,IFiltersV7 f7);
+
+    public string getStyleTr(TItem tItem, IFiltersV7 f7)
+    {
+        StringBuilder sb = new();
+      //  sb.Append("<th>XXX</th>");
+        foreach (var x in f7.FieldMappers)
+        {
+            var ext = x.Ext == null ? "" : x.Ext;
+            var val = tItem.GetType().GetProperty(x.Id).GetValue(tItem);
+            switch (ext)
+            {
+                case "yyyy-MM-dd":
+                    sb.Append("<td style=\"text-align:center\">");
+                    // WATCHING, 解析日期要注意
+                    // 目前是針對 2021/1/19 0:00:00
+                    // 先取前半段,再以 "yyyy/m/d"解析
+                    // 獲得的 DateTime 再以 ToString("yyyy-MM-dd")
+                    var y = DateTime.ParseExact(tItem.GetType().GetProperty(x.Id).GetValue(tItem).ToString().Split(" ")[0], "yyyy/m/d", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+
+
+                    sb.Append(y);
+
+                    sb.Append("</td>");
+                    break;
+
+
+                case "MM/dd": // caseMMdd
+                    sb.Append("<td style=\"text-align:center\">");
+                    // WATCHING, 解析日期要注意
+                    // 目前是針對 2021/1/19 0:00:00
+                    // 先取前半段,再以 "yyyy/m/d"解析
+                    // 獲得的 DateTime 再以 ToString("yyyy-MM-dd")
+                    var caseMMdd = DateTime.ParseExact(tItem.GetType().GetProperty(x.Id).GetValue(tItem).ToString().Split(" ")[0], "yyyy/m/d", CultureInfo.InvariantCulture).ToString("MM/dd");
+
+
+                    sb.Append(caseMMdd);
+
+                    sb.Append("</td>");
+                    break;
+
+                case "decimal2": //
+                    sb.Append("<td style=\"text-align:right\">");
+                    sb.Append(String.Format("{0:#,##0.00}", val));
+                    sb.Append("</td>");
+                    break;
+                case "number": //
+                    sb.Append("<td style=\"text-align:right\">");
+                    sb.Append(val);
+                    sb.Append("</td>");
+                    break;
+
+                default:
+                    sb.Append("<td>");
+                    sb.Append(val);
+                    sb.Append("</td>");
+
+                    break;
+
+            }
+        }
+        //   sb.Append("</tr>");
+
+        return sb.ToString();
+    }
+
+    public string GetTBodyV2(myMethodDelegate del)
+    {
+        StringBuilder sb = new();
+        //  sb.Append("<tr><th>xxxxxx  1.0.1 override</th></tr>");
+
+        int cnt = 1;
+        int startSEQ = PageHelper.PageSize * (PageHelper.Page - 1);
+        foreach (var item in Items)
+        {
+            sb.Append("<tr>");
+            //            sb.Append(String.Format("<th>{0}</td>", (RecNum + cnt)));
+            sb.Append("<th>");
+            sb.Append(startSEQ + cnt);
+            cnt++;
+            sb.Append("</th>");
+            sb.Append(del(item, Filters));
+        }
+        return sb.ToString();
+
+    }
+    public string GetTBody()
+    {
+        //https://stackoverflow.com/questions/50604366/is-there-an-equivalent-to-html-raw-in-blazor
+        StringBuilder sb = new();
+        //  sb.Append("<tr><th>xxxxxx  1.0.1 override</th></tr>");
+
+        int cnt = 1;
+        int startSEQ = PageHelper.PageSize * (PageHelper.Page - 1);
+        foreach (var item in Items)
+        {
+            // RecNum = RecNum + 1;
+            sb.Append("<tr>");
+            //            sb.Append(String.Format("<th>{0}</td>", (RecNum + cnt)));
+            sb.Append("<th>");
+            sb.Append(startSEQ + cnt);
+            cnt++;
+            sb.Append("</th>");
+
+
+            foreach (var x in Filters.FieldMappers)
+            {
+                var ext = x.Ext == null ? "" : x.Ext;
+                var val = item.GetType().GetProperty(@x.Id).GetValue(item);
+                switch (ext)
+                {
+                    case "yyyy-MM-dd":
+                        sb.Append("<td style=\"text-align:center\">");
+                        // WATCHING, 解析日期要注意
+                        // 目前是針對 2021/1/19 0:00:00
+                        // 先取前半段,再以 "yyyy/m/d"解析
+                        // 獲得的 DateTime 再以 ToString("yyyy-MM-dd")
+                        var y = DateTime.ParseExact(item.GetType().GetProperty(x.Id).GetValue(item).ToString().Split(" ")[0], "yyyy/m/d", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+
+
+                        sb.Append(y);
+
+                        sb.Append("</td>");
+                        break;
+
+
+                    case "MM/dd": // caseMMdd
+                        sb.Append("<td style=\"text-align:center\">");
+                        // WATCHING, 解析日期要注意
+                        // 目前是針對 2021/1/19 0:00:00
+                        // 先取前半段,再以 "yyyy/m/d"解析
+                        // 獲得的 DateTime 再以 ToString("yyyy-MM-dd")
+                        var caseMMdd = DateTime.ParseExact(item.GetType().GetProperty(x.Id).GetValue(item).ToString().Split(" ")[0], "yyyy/m/d", CultureInfo.InvariantCulture).ToString("MM/dd");
+
+
+                        sb.Append(caseMMdd);
+
+                        sb.Append("</td>");
+                        break;
+
+                    case "decimal2": //
+                        sb.Append("<td style=\"text-align:right\">");
+                        sb.Append(String.Format("{0:#,##0.00}", val));
+                        sb.Append("</td>");
+                        break;
+                    case "number": //
+                        sb.Append("<td style=\"text-align:right\">");
+                        sb.Append(val);
+                        sb.Append("</td>");
+                        break;
+
+                    default:
+                        sb.Append("<td>");
+                        sb.Append(val);
+                        sb.Append("</td>");
+
+                        break;
+
+                }
+            }
+            sb.Append("</tr>");
+
+
+        }
+        return sb.ToString();
+
+    }
+
+
+    [Parameter]
+    public IAdapterV7 Adapter { get; set; }
+
+
+    // [Parameter]
+    //  public IFiltersA000 Filters { get; set; }
+    private IFiltersV7 Filters { get => Adapter.GetFilter(); }
+
+    [Parameter]
+    public List<TItem> Items { get; set; }
+
+
+
+    [Parameter]
+    public IPageHelperV7 PageHelper { get; set; } // NOTE by Mark, 2021-02-03, 解決TABLE SEQ
+
+    int RecNum;
+
+
+    // public int StartReccordNumber { get; set; }
+
+    MemberInfo[] memberInfo;  // reflection 中文應該是? 字面是反射, 應是反向查詢的意思
+
+    List<IdNameShow> Cols;
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        RecNum = PageHelper.PageSize * (PageHelper.Page - 1);
+
+
+        if (Items != null && Items.Count > 0)
+        {
+            Type typeofItem = this.Items[0].GetType();
+            memberInfo = typeofItem.GetMembers();
+        }
+
+        Cols = new();
+
+        if (memberInfo != null)
+        {
+
+
+            int k = 0;
+            for (int i = 0; i < memberInfo.Count(); i++)
+            {
+                if (memberInfo[i].MemberType == MemberTypes.Property)//表示欄位
+                {
+                    //https://stackoverflow.com/questions/3949113/check-if-element-at-position-x-exists-in-the-list
+                    var show = "-";
+                    //if (Filters.FieldMappers.ElementAtOrDefault(k) != null)//表示之前要顯示的欄位已經有找到了, something is wrong here
+                    //{
+                    //    // logic
+                    //    show = Filters.FieldMappers[k].Name;
+                    //}
+
+                    // Cols.Add(new IdNameShow(k, memberInfo[i].Name, show));
+                    Cols.Add(new IdNameShow(k, memberInfo[i].Name, show));
+                    k++;
+                }
+            }
+        }
+
+        //
+        // NOTE by Mark, 2021-01-22
+        // 這是核心的地方
+        // 根據給定要顯示的欄位及其顯示文字
+        // 先反查到在 Entity 其對應的 index
+        // 並先記下來
+        // 待會在顯示欄位時使用
+        foreach (var x in Filters.FieldMappers)
+        {
+            if (memberInfo != null) // NOTE by Mark, 2021-01-17, quick fix
+            {
+                for (int i = 0; i < memberInfo.Count(); i++)
+                {
+
+                    if (memberInfo[i].MemberType == MemberTypes.Property)
+                    {
+                        if (memberInfo[i].Name == x.Id)
+                        {
+                            x.Index = i;
+                        }
+
+
+                    }
+                }
+
+            }
+            //  x.Index = 999; // for debug
+        }
+    }
+
+    //[Parameter]
+    //public bool IsShowField { get; set; } = true;
+
+
+
+
+    //[Parameter]
+    //public List<FieldMapper> FieldMapper { get; set; }
+
+
+    //[Parameter]
+    //public string ColumsToExcludeCSV { get; set; }
+
+    //[Parameter]
+    //public string CssClass { get; set; }
+
+
+
+
+
+}

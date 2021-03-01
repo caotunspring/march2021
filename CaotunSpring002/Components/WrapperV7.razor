@@ -1,0 +1,66 @@
+﻿
+<CascadingValue Value="this" IsFixed="true">
+    <div style="margin-left: -12px;
+        margin-top: -12px;
+        margin-bottom: 8px;
+        font-size: 180%">@TITLE</div>
+
+
+
+        <SearchCompV7 Adapter="Adapter" PageHelper="PageHelper" />
+  @*      <TableCompV7 Adapter="Adapter" Items="Items" PageHelper="PageHelper" />*@
+        @ChildContent
+
+        <PagingCompV7 Adapter="Adapter" PageHelper="PageHelper" />
+    </CascadingValue>
+
+    @code {
+
+
+        //[Parameter]
+        //public List<Object> Items { get; set; }
+
+        [Parameter]
+        public IAdapterV7 Adapter { get; set; }
+
+
+        //[Parameter]
+        public IFiltersV7 Filters { get => Adapter.GetFilter(); } // NOTE by Mark, 2021-01-18, 解決排序的一些問題
+
+        [Parameter]
+        public IPageHelperV7 PageHelper { get; set; } // NOTE by Mark, 2021-02-03, 解決TABLE SEQ
+
+
+
+        /// <summary>
+        /// Renders whatever is inside the tags and cascades a copy of itself.
+        /// </summary>
+        [Parameter]
+        public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Call when the filter has changed to refresh the <see cref="Contact"/>
+        /// list.
+        /// </summary>
+        [Parameter]
+        public EventCallback FilterChanged { get; set; }
+
+
+        [Parameter]
+        public EventCallback ToWrite { get; set; }
+
+        /// <summary>
+        /// Call when a contact is requested to be deleted.
+        /// </summary>
+        //[Parameter]
+        //public EventCallback<string> DeleteRequested { get; set; }
+
+        [Parameter]
+        public string TITLE { get; set; }
+
+
+        /// <summary>
+        /// The id of the <see cref="Contact"/> to be deleted.
+        /// </summary>
+        //public string DeleteRequestId { get; set; }
+    }

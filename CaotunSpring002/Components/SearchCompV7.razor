@@ -1,0 +1,350 @@
+﻿@using System.Timers
+
+<style>
+    .grid-container {
+        display: inline-grid;
+        grid-template-columns: auto auto auto auto auto auto;
+        background-color: #2196F3;
+        padding: 10px;
+    }
+
+    .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    /*https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout*/
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        /*grid-template-columns: 200px 200px 200px;*/
+    }
+
+    .wrapper2 {
+        display: grid;
+        grid-template-columns: 1fr,400px;
+        /*grid-template-columns: 200px 200px 200px;*/
+    }
+
+    .lbl {
+        border-radius: 4px;
+        /*margin-left: 8px;*/
+        text-align: right;
+        background-color: lightgray;
+        /*margin-right:4px;*/
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .btngrid {
+        margin-left: 8px;
+        /*text-align: left;*/
+        /*background-color: lightgray;*/
+        /*margin-right:4px;*/
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .txt {
+        /*border-radius: 5px;*/
+        margin-left: -16px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    /*https://stackoverflow.com/questions/56545830/how-can-i-make-an-input-element-respect-the-dimensions-of-a-grid-container*/
+    input {
+        min-width: 0;
+    }
+
+    .val {
+        background-color: antiquewhite
+    }
+</style>
+
+
+<div class="row"  style="margin-top: 16px;">
+    <div class="col-6  col-lg-3 txt " style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            @if (Filters.FMapper[0] >= 0)
+            {
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">  @Filters.FilterContainsColName[@F0] </span>
+            </div>
+            <input type="text" class="form-control" autofocus @bind="@Filters.FilterContains[@F0]">
+            }
+        </div>
+    </div>
+    <div class="col-6  col-lg-3 txt " style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            @if (Filters.FMapper[1] >= 0)
+            {
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">    @Filters.FilterContainsColName[@F1] </span>
+            </div>
+            <input type="text" class="form-control" autofocus @bind="@Filters.FilterContains[@F1]">
+            }
+        </div>
+
+    </div>
+    <div class="col-6  col-lg-3  txt " style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            @if (Filters.FMapper[2] >= 0)
+            {
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">    @Filters.FilterContainsColName[@F2] </span>
+            </div>
+            <input type="text" class="form-control" autofocus @bind="@Filters.FilterContains[@F2]">
+            }
+        </div>
+    </div>
+
+    <div class="col-6  col-lg-3  txt " style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            @if (Filters.FMapper[3] >= 0)
+            {
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">    @Filters.FilterContainsColName[@F3] </span>
+            </div>
+            <input type="text" class="form-control" autofocus @bind="@Filters.FilterContains[@F3]">
+
+            }
+
+        </div>
+    </div>
+
+
+</div>
+<div class="row">
+    <div class="col-6  col-lg-3  txt " style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            @if (Filters.FMapper[4] >= 0)
+            {
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">  @Filters.FilterContainsColName[@F4] </span>
+            </div>
+            <input type="text" class="form-control" autofocus @bind="@Filters.FilterContains[@F4]">
+            }
+        </div>
+    </div>
+    <div class="col-6  col-lg-3  txt " style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            @if (Filters.FMapper[5] >= 0)
+            {
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">    @Filters.FilterContainsColName[@F5] </span>
+            </div>
+            <input type="text" class="form-control" autofocus @bind="@Filters.FilterContains[@F5]">
+            }
+        </div>
+
+    </div>
+    <div class="col-6  col-lg-3  txt " style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            @if (Filters.FMapper[6] >= 0)
+            {
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">    @Filters.FilterContainsColName[@F6] </span>
+            </div>
+            <input type="text" class="form-control" autofocus @bind="@Filters.FilterContains[@F6]">
+            }
+        </div>
+    </div>
+
+    <div class="col-6  col-lg-3  txt " style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            @if (Filters.FMapper[7] >= 0)
+            {
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">    @Filters.FilterContainsColName[@F7] </span>
+            </div>
+            <input type="text" class="form-control" autofocus @bind="@Filters.FilterContains[@F7]">
+
+            }
+
+        </div>
+    </div>
+
+
+</div>
+<div class="row">
+
+    <div class="col-6  col-lg-3  txt" style="margin-top: -16px;  font-size:85%">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">   排序1</span>
+            </div>
+            <select name="cars" id="cars" @bind="Filters.SortStr">
+                @foreach (var x in fieldMappersSorting)
+                {
+                <option value="@x.Id">@x.Name </option>
+                }
+
+            </select>
+        </div>
+    </div>
+
+    <div class="col-6  col-lg-3 txt" style="margin-top: -16px;  font-size:85%">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">   排序2</span>
+            </div>
+            <select name="cars2" id="cars2" @bind="Filters.SortStr2">
+                <option value="">== 請選擇 ==</option>
+                @foreach (var x in fieldMappersSorting)
+                {
+                <option value="@x.Id">@x.Name </option>
+                }
+
+            </select>
+        </div>
+    </div>
+
+    <div class="col-6  col-lg-3  txt" style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">   每頁筆數</span>
+            </div>
+            <select name="cars" id="cars" @bind="@PageHelper.PageSize">
+                @for (int i = 1; i <= 100; i++)
+                {
+                <option value=@i>@i </option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="col-6  col-lg-3  txt" style="margin-top: -16px;">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-primary " @onclick="SearchOnclick">
+                    查詢
+                </button>
+
+                &nbsp;<input type="checkbox" @bind="@Filters.IsDev" aria-label="Checkbox for following text input">開發用
+                @*<button class="btn btn-primary " @onclick="WriteOnclick">
+                        生成JSON
+                    </button>*@
+                @*      <InputFile OnChange="@OnInputFileChange" />*@
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@code {
+
+    // NOTE by Mark, 20201-01-21
+    // === (1) 傳入的參數, 所有帶有 Parameter ===
+
+    /// <summary>
+    /// Get a reference to the global <see cref="GridWrapper"/>.
+    /// </summary>
+    [CascadingParameter]
+    public WrapperV7 Wrapper { get; set; }   //NOTE by Mark, 2021-02-24,
+
+    //[Parameter]
+    //public IFiltersV7 Filters { get; set; } // NOTE by Mark, 2021-01-18, 解決排序的一些問題
+
+    [Parameter]
+    public IAdapterV7 Adapter { get; set; }
+
+
+    // [Parameter]
+    //  public IFiltersA000 Filters { get; set; }
+    private IFiltersV7 Filters { get => Adapter.GetFilter(); }
+
+
+    [Parameter]
+    public IPageHelperV7 PageHelper { get; set; } // NOTE by Mark, 2021-02-03, 解決TABLE SEQ
+
+    // === (2) 本地定義的變量 ===
+
+    List<FieldMappingModel> fieldMappersSorting; // 按照顯示欄位自動生成正序反序的下接列表
+
+
+    // BUG, 萬一沒有這麼多, 會出問題
+    private int F0 { get => Filters.FMapper [0]; }
+    private int F1 { get => Filters.FMapper[1]; }
+    private int F2 { get => Filters.FMapper[2]; }
+    private int F3 { get => Filters.FMapper[3]; }//ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+
+    private int F4 { get => Filters.FMapper[4]; }
+    private int F5 { get => Filters.FMapper[5]; }
+    private int F6 { get => Filters.FMapper[6]; }
+    private int F7 { get => Filters.FMapper[7]; }//ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+
+
+    // === (3) 所有 protected override ===
+    /// <summary>
+    /// When ready.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        fieldMappersSorting = new();
+
+        foreach (var x in Filters.FieldMappers)
+        {
+            fieldMappersSorting.Add(new FieldMappingModel(x.Id + "_1", x.Name + "🔼"));
+            fieldMappersSorting.Add(new FieldMappingModel(x.Id + "_2", x.Name + "🔽"));
+        }
+
+        int k = 0;
+        foreach (var x in Filters.FieldMappers)
+        {
+            Filters.FilterContainsCol[k] = x.Id;
+            Filters.FilterContainsColName[k] = x.Name;
+
+            k++;
+        }
+    }
+
+
+    // === (4) 自定義的 ===
+
+    private async void SearchOnclick(MouseEventArgs e)
+    {
+        //StateHasChanged();
+
+        await InvokeAsync(() => Wrapper.FilterChanged.InvokeAsync(this));
+    }
+
+    private async void WriteOnclick(MouseEventArgs e)
+    {
+        await InvokeAsync(() => Wrapper.ToWrite.InvokeAsync(this));
+        // Wrapper.wr
+        //  string json = JsonConvert.SerializeObject(Filters.FieldMappers.ToArray());
+
+        //write string to file
+        //  System.IO.File.WriteAllText(@"D:\ZZZ\" + PRE + ENT + ".json", json);
+    }
+
+
+
+    // NOTE by Mark, 2021-01-23
+    // 讓開發人員上傳更新的JSON,
+    // 經檢查通過後,更新,保存
+    private IList<string> imageDataUrls = new List<string>();
+
+    //private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    //{
+    //    var maxAllowedFiles = 3;
+    //    var format = "image/png";
+
+    //    foreach (var imageFile in e.GetMultipleFiles(maxAllowedFiles))
+    //    {
+    //        var resizedImageFile = await imageFile.RequestImageFileAsync(format,
+    //            100, 100);
+    //        var buffer = new byte[resizedImageFile.Size];
+    //        await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+    //        var imageDataUrl =
+    //            $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+    //        imageDataUrls.Add(imageDataUrl);
+    //    }
+    //}
+}

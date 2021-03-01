@@ -1,0 +1,50 @@
+[
+  {
+    "Id": "Id",
+    "Name": "Id",
+    "Index": 10,
+    "Ext": null
+  },
+  {
+    "Id": "FirstName",
+    "Name": "FirstName",
+    "Index": 20,
+    "Ext": null
+  },
+  {
+    "Id": "LastName",
+    "Name": "LastName",
+    "Index": 30,
+    "Ext": null
+  },
+  {
+    "Id": "Phone",
+    "Name": "Phone",
+    "Index": 40,
+    "Ext": null
+  },
+  {
+    "Id": "Street",
+    "Name": "Street",
+    "Index": 50,
+    "Ext": null
+  },
+  {
+    "Id": "City",
+    "Name": "City",
+    "Index": 60,
+    "Ext": null
+  },
+  {
+    "Id": "State",
+    "Name": "State",
+    "Index": 70,
+    "Ext": null
+  },
+  {
+    "Id": "ZipCode",
+    "Name": "ZipCode",
+    "Index": 80,
+    "Ext": null
+  }
+]
